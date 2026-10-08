@@ -1,0 +1,13 @@
+body { font-family: Arial, sans-serif; background: #f2f4f8; margin: 0; }
+.container { max-width: 950px; margin: 20px auto; padding: 0 12px; }
+header { display: flex; justify-content: space-between; align-items: center; }
+.card { background: #fff; padding: 16px; border-radius: 8px; margin: 14px 0; box-shadow: 0 1px 4px rgba(0,0,0,.1); }
+.auth { max-width: 360px; margin: 60px auto; }
+input, select { display: block; width: 100%; padding: 9px; margin: 8px 0; box-sizing: border-box; }
+button { background: #1a73e8; color: #fff; border: 0; padding: 8px 14px; border-radius: 5px; cursor: pointer; }
+table { width: 100%; border-collapse: collapse; }
+th, td { border-bottom: 1px solid #ddd; padding: 8px; text-align: left; font-size: 14px; }
+.msg { color: #d93025; }
+.tag { padding: 2px 8px; border-radius: 10px; font-size: 12px; background: #eee; }
+.PENDING { background: #fff3cd; } .ACCEPTED { background: #cfe2ff; }
+.COMPLETED { background: #d1e7dd; } .CANCELLED { background: #f8d7da; }
