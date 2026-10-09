@@ -91,10 +91,35 @@ export function DriverDashboard({ user }) {
 
 export function AdminDashboard() {
   const [rows] = useList("/bookings");
+  const [stats, setStats] = useState(null);
+  const [statsError, setStatsError] = useState("");
+
+  useEffect(() => {
+    api.get("/admin/stats")
+      .then((response) => setStats(response.data))
+      .catch((error) => setStatsError(errMsg(error)));
+  }, []);
+
   return (
-    <div className="card">
-      <h3>All Bookings</h3>
-      <Table rows={rows} />
-    </div>
+    <>
+      <div className="admin-stats">
+        {[
+          ["Drivers", stats?.drivers],
+          ["Accepted Orders", stats?.acceptedBookings],
+          ["Cancelled Orders", stats?.cancelledBookings],
+          ["Completed Orders", stats?.completedBookings],
+        ].map(([label, value]) => (
+          <div className="card stat-card" key={label}>
+            <h3>{label}</h3>
+            <p className="stat-value">{value ?? "—"}</p>
+          </div>
+        ))}
+      </div>
+      {statsError && <p className="msg">{statsError}</p>}
+      <div className="card">
+        <h3>All Bookings</h3>
+        <Table rows={rows} />
+      </div>
+    </>
   );
 }

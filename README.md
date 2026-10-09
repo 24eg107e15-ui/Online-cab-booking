@@ -22,3 +22,4 @@ POST /api/auth/register, POST /api/auth/login
 POST /api/bookings, GET /api/bookings, GET /api/bookings/pending
 GET /api/bookings/user/{id}, GET /api/bookings/driver/{id}
 PUT /api/bookings/{id}/cancel, PUT /api/bookings/{id}/accept?driverId=, PUT /api/bookings/{id}/complete
+GET /api/admin/stats
