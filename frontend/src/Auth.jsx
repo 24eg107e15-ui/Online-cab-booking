@@ -3,7 +3,7 @@ import api, { errMsg } from "./api";
 
 export default function Auth({ onLogin }) {
   const [isLogin, setIsLogin] = useState(true);
-  const [f, setF] = useState({ name: "", email: "", password: "", phone: "", role: "USER", vehicleNumber: "", vehicleType: "" });
+  const [f, setF] = useState({ name: "", email: "", password: "", phone: "", role: "USER", vehicleNumber: "", vehicleType: "", adminSetupKey: "" });
   const [msg, setMsg] = useState("");
   const set = (k) => (e) => setF({ ...f, [k]: e.target.value });
 
@@ -13,7 +13,11 @@ export default function Auth({ onLogin }) {
         const { data } = await api.post("/auth/login", { email: f.email, password: f.password });
         onLogin(data);
       } else {
-        await api.post("/auth/register", f);
+        const { adminSetupKey, ...registration } = f;
+        const config = f.role === "ADMIN"
+          ? { headers: { "X-Admin-Setup-Key": adminSetupKey } }
+          : {};
+        await api.post("/auth/register", registration, config);
         setMsg("Registered! Please login.");
         setIsLogin(true);
       }
@@ -30,10 +34,15 @@ export default function Auth({ onLogin }) {
         <select value={f.role} onChange={set("role")}>
           <option value="USER">Passenger</option>
           <option value="DRIVER">Driver</option>
+          <option value="ADMIN">Admin</option>
         </select>
         {f.role === "DRIVER" && <>
           <input placeholder="Vehicle Number" value={f.vehicleNumber} onChange={set("vehicleNumber")} />
           <input placeholder="Vehicle Type (Auto/Mini/Sedan)" value={f.vehicleType} onChange={set("vehicleType")} />
+        </>}
+        {f.role === "ADMIN" && <>
+          <input type="password" placeholder="Admin setup key" value={f.adminSetupKey} onChange={set("adminSetupKey")} />
+          <small>Admin registration requires the setup key configured by the server.</small>
         </>}
       </>}
       <input placeholder="Email" value={f.email} onChange={set("email")} />
